@@ -9,12 +9,12 @@
         <item>@string/volume.phonecall</item>
     </string-array>
 
-    <string-array name="stream_setting_values">
-        <item>3</item>
-        <item>2</item>
-        <item>4</item>
-        <item>5</item>
-        <item>1</item>
-        <item>0</item>
+    <string-array name="stream_setting_values" translatable="false">
+        <item translatable="false">3</item>
+        <item translatable="false">2</item>
+        <item translatable="false">4</item>
+        <item translatable="false">5</item>
+        <item translatable="false" >1</item>
+        <item translatable="false">0</item>
     </string-array>
 </resources>
