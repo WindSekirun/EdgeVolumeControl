@@ -7,4 +7,19 @@
     <string name="control.unmute">뮤트 해제</string>
     <string name="control.down">볼륨 낮게</string>
     <string name="control_up">볼륨 높게</string>
+    <string name="volume.music">미디어 볼륨</string>
+    <string name="volume.ring">벨소리 볼륨</string>
+    <string name="volume.alarm">알람 볼륨</string>
+    <string name="volume.notification">알림 볼륨</string>
+    <string name="volume.system">시스템 볼륨</string>
+    <string name="volume.phonecall">통화 볼륨</string>
+    <string name="setting">설정</string>
+    <string name="setting.volume.type">볼륨 종류 설정</string>
+    <string name="setting.information">정보</string>
+    <string name="setting.version">최신버전</string>
+    <string name="setting.developer">개발자</string>
+    <string name="setting.third.party">제 3자 라이브러리 정보</string>
+    <string name="setting.source.summary">코드가 공개되어 있습니다.</string>
+    <string name="setting.source">엣지 볼륨컨트롤의 코드 보기</string>
+    <string name="setting.type.summary">이제 %s 을 설정할 수 있습니다</string>
 </resources>

@@ -42,7 +42,7 @@ class ConfigureFragment : PreferenceFragment() {
         val titles = resources.getStringArray(R.array.stream_setting_titles).toList()
         val values = resources.getStringArray(R.array.stream_setting_values).toList()
         val index = values.indexOf(value)
-        this.summary = "Now you can set %s".format(titles[index])
+        this.summary = getString(R.string.setting_type_summary).format(titles[index])
     }
 
 }

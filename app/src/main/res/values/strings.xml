@@ -21,4 +21,5 @@
     <string name="setting.third.party">3rd-party Information</string>
     <string name="setting.source.summary">Code is opened for this project</string>
     <string name="setting.source">Go to Source of EdgeVolumeControl</string>
+    <string name="setting.type.summary">Now you can set %s</string>
 </resources>
