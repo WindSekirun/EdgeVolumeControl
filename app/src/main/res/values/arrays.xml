@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="stream_setting_titles">
+        <item>@string/volume.music</item>
+        <item>@string/volume.ring</item>
+        <item>@string/volume.alarm</item>
+        <item>@string/volume.notification</item>
+        <item>@string/volume.system</item>
+        <item>@string/volume.phonecall</item>
+    </string-array>
+
+    <string-array name="stream_setting_values">
+        <item>3</item>
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+</resources>

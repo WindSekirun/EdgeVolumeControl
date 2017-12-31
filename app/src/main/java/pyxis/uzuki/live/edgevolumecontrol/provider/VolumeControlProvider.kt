@@ -101,28 +101,22 @@ class VolumeControlProvider : SlookCocktailProvider() {
     }
 
     private fun Context.changeVolume(changeValue: Int = 0, isMute: Boolean = false) {
-        val original = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val original = audioManager.getStreamVolume(getStreamVolume())
         val changed = original + changeValue
-        var nowBehavior = ""
 
-        if (isLastBehaviorMute() || isStreamMute()) {
-            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
+        if (isStreamMute()) {
+            audioManager.adjustStreamVolume(getStreamVolume(), AudioManager.ADJUST_UNMUTE, 0)
         }
 
         if (isMute) {
-            nowBehavior = Constants.LAST_BEHAVIOR_MUTE
-            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
+            audioManager.adjustStreamVolume(getStreamVolume(), AudioManager.ADJUST_MUTE, 0)
         }
 
         if (changeValue < 0) {
-            nowBehavior = Constants.LAST_BEHAVIOR_MINUS
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, changed, AudioManager.FLAG_SHOW_UI)
+            audioManager.setStreamVolume(getStreamVolume(), changed, AudioManager.FLAG_SHOW_UI)
         } else if (changeValue > 0) {
-            nowBehavior = Constants.LAST_BEHAVIOR_PLUS
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, changed, AudioManager.FLAG_SHOW_UI)
+            audioManager.setStreamVolume(getStreamVolume(), changed, AudioManager.FLAG_SHOW_UI)
         }
-
-        RPreference.getInstance(this).put(Constants.KEY_LAST_BEHAVIOR to nowBehavior)
     }
 
     private fun Context.updateUI() {
@@ -135,7 +129,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
             mHelpView = createHelpView(this)
         }
 
-        if (isLastBehaviorMute() || isStreamMute()) {
+        if (isStreamMute()) {
             changeIcon(R.drawable.ic_volume_up)
             changeText(R.string.control_unmute)
         } else {
@@ -156,10 +150,9 @@ class VolumeControlProvider : SlookCocktailProvider() {
     private fun Context.changeText(resId: Int) =
             mVolumeControlView?.setTextViewText(R.id.txtMuteState, this.getString(resId))
 
-    private fun Context.isStreamMute() = audioManager.isStreamMute(AudioManager.STREAM_MUSIC)
+    private fun Context.isStreamMute() = audioManager.isStreamMute(getStreamVolume())
 
-    private fun Context.isLastBehaviorMute() =
-            RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR) == Constants.LAST_BEHAVIOR_MUTE
+    private fun Context.getStreamVolume() = RPreference.getInstance(this).getString("stream_setting").toInt()
 
     // unused methods
 

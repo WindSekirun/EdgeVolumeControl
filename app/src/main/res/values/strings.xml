@@ -7,4 +7,18 @@
     <string name="control.unmute">Unmute</string>
     <string name="control.down">Volume Down</string>
     <string name="control_up">Volume Up</string>
+    <string name="volume.music">Music Volume</string>
+    <string name="volume.ring">Ring Volume</string>
+    <string name="volume.alarm">Alarm Volume</string>
+    <string name="volume.notification">Notification Volume</string>
+    <string name="volume.system">System Volume</string>
+    <string name="volume.phonecall">Phone Call Volume</string>
+    <string name="setting">Settings</string>
+    <string name="setting.volume.type">Setting Volume Type</string>
+    <string name="setting.information">Information</string>
+    <string name="setting.version">Version</string>
+    <string name="setting.developer">Developer</string>
+    <string name="setting.third.party">3rd-party Information</string>
+    <string name="setting.source.summary">Code is opened for this project</string>
+    <string name="setting.source">Go to Source of EdgeVolumeControl</string>
 </resources>
