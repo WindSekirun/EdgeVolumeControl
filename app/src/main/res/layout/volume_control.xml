@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:background="#33000000"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="#33000000">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,29 +18,54 @@
             android:layout_height="50dp"
             android:src="@drawable/ic_volume_up" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/control_up"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
         <ImageView
             android:id="@+id/btnMinus"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="25dp"
-            android:src="@drawable/ic_volume_down"/>
+            android:src="@drawable/ic_volume_down" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/control.down"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/btnMute"
             android:layout_width="50dp"
-            android:layout_marginTop="25dp"
             android:layout_height="50dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/ic_volume_off" />
+
+        <TextView
+            android:id="@+id/txtMuteState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/control.mute"
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/btnSetting"
         android:layout_width="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
         android:layout_height="24dp"
-        android:textSize="18sp"
-        android:textColor="@android:color/white"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="23dp"
-        android:text="@string/volume.setting"/>
+        android:text="@string/volume.setting"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
 </FrameLayout>

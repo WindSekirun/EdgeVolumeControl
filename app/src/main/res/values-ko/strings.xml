@@ -3,4 +3,8 @@
     <string name="edge.screen.title">@string/app_name</string>
     <string name="edge.screen.desc">엣지 스크린을 위한 간단 볼륨 컨트롤</string>
     <string name="volume.setting">소리 설정</string>
+    <string name="control.mute">뮤트</string>
+    <string name="control.unmute">뮤트 해제</string>
+    <string name="control.down">볼륨 낮게</string>
+    <string name="control_up">볼륨 높게</string>
 </resources>

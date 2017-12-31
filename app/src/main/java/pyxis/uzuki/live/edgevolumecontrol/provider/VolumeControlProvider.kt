@@ -5,8 +5,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
-import android.provider.Settings
-import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.widget.RemoteViews
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailManager
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailProvider
@@ -15,7 +13,6 @@ import pyxis.uzuki.live.edgevolumecontrol.R
 import pyxis.uzuki.live.nyancat.NyanCat
 import pyxis.uzuki.live.richutilskt.utils.RPreference
 import pyxis.uzuki.live.richutilskt.utils.audioManager
-import pyxis.uzuki.live.richutilskt.utils.isEmpty
 
 
 /**
@@ -102,7 +99,10 @@ class VolumeControlProvider : SlookCocktailProvider() {
         val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
         var nowBehavior = ""
 
-        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE || audioManager.isStreamMute(AudioManager.STREAM_MUSIC)) {
+        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE || isMute) {
+            if (changeValue == 0) {
+                nowBehavior = ""
+            }
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
         }
 
@@ -114,9 +114,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
         if (changeValue < 0) {
             nowBehavior = Constants.LAST_BEHAVIOR_MINUS
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, changed, AudioManager.FLAG_SHOW_UI)
-        }
-
-        if (nowBehavior.isEmpty()) {
+        } else if (changeValue > 0) {
             nowBehavior = Constants.LAST_BEHAVIOR_PLUS
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, changed, AudioManager.FLAG_SHOW_UI)
         }
@@ -133,8 +131,10 @@ class VolumeControlProvider : SlookCocktailProvider() {
 
         if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE) {
             changeIcon(R.drawable.ic_volume_up)
+            changeText(R.string.control_unmute)
         } else {
             changeIcon(R.drawable.ic_volume_off)
+            changeText(R.string.control_mute)
         }
 
         SlookCocktailManager.getInstance(this).updateCocktail(cocktailIds[0], mVolumeControlView)
@@ -144,8 +144,13 @@ class VolumeControlProvider : SlookCocktailProvider() {
             SlookCocktailManager.getInstance(this).getCocktailIds(
                     ComponentName(this, VolumeControlProvider::class.java))
 
-    private fun changeIcon(resId: Int, srcId: Int = R.id.btnMute) =
-            mVolumeControlView?.setImageViewResource(srcId, resId)
+    private fun changeIcon(resId: Int) =
+            mVolumeControlView?.setImageViewResource(R.id.btnMute, resId)
+
+    private fun Context.changeText(resId: Int) =
+            mVolumeControlView?.setTextViewText(R.id.txtMuteState, this.getString(resId))
+
+    private fun Context.isMute() = audioManager.isStreamMute(AudioManager.STREAM_MUSIC)
 
     // unused methods
 
