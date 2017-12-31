@@ -10,6 +10,7 @@ package pyxis.uzuki.live.edgevolumecontrol
 
 object Constants {
     const val ACTION_REMOTE_CLICK = "pyxis.uzuki.live.edgevolumecontrol.ACTION_REMOTE_CLICK"
+    const val ACTION_OPEN_VOLUME_SETTING = "pyxis.uzuki.live.edgevolumecontrol.ACTION_OPEN_VOLUME_SETTING"
 
     const val KEY_LAST_BEHAVIOR = "pyxis.uzuki.live.edgevolumecontrol.KEY_LAST_BEHAVIOR"
     const val LAST_BEHAVIOR_PLUS = "pyxis.uzuki.live.edgevolumecontrol.LAST_BEHAVIOR_PLUS"

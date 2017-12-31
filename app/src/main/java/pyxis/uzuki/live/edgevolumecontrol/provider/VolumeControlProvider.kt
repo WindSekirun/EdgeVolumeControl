@@ -5,6 +5,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.provider.Settings
+import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.widget.RemoteViews
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailManager
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailProvider
@@ -53,11 +55,12 @@ class VolumeControlProvider : SlookCocktailProvider() {
     }
 
     private fun createRemoteView(context: Context): RemoteViews {
-        val stateView = RemoteViews(context.packageName, R.layout.volume_control)
-        stateView.setOnClickPendingIntent(R.id.btnPlus, context.getClickIntent(R.id.btnPlus))
-        stateView.setOnClickPendingIntent(R.id.btnMinus, context.getClickIntent(R.id.btnMinus))
-        stateView.setOnClickPendingIntent(R.id.btnMute, context.getClickIntent(R.id.btnMute))
-        return stateView
+        val remoteView = RemoteViews(context.packageName, R.layout.volume_control)
+        remoteView.setOnClickPendingIntent(R.id.btnPlus, context.getClickIntent(R.id.btnPlus))
+        remoteView.setOnClickPendingIntent(R.id.btnMinus, context.getClickIntent(R.id.btnMinus))
+        remoteView.setOnClickPendingIntent(R.id.btnMute, context.getClickIntent(R.id.btnMute))
+        remoteView.setOnClickPendingIntent(R.id.btnSetting, context.getClickIntent(R.id.btnSetting))
+        return remoteView
     }
 
     private fun Context.getClickIntent(id: Int, key: Int = 0): PendingIntent {
@@ -86,6 +89,10 @@ class VolumeControlProvider : SlookCocktailProvider() {
                 changeVolume(isMute = true)
                 updateUI()
             }
+
+            R.id.btnSetting -> {
+                sendBroadcast(Intent(Constants.ACTION_OPEN_VOLUME_SETTING))
+            }
         }
     }
 
@@ -95,7 +102,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
         val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
         var nowBehavior = ""
 
-        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE) {
+        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE || audioManager.isStreamMute(AudioManager.STREAM_MUSIC)) {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
         }
 
