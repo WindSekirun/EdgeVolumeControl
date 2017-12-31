@@ -17,7 +17,7 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        val config = LoggerConfig(packageName, BuildConfig.DEBUG, TriggerTiming.ALL)
+        val config = LoggerConfig(packageName, BuildConfig.DEBUG, TriggerTiming.ONLY_DEBUG)
         NyanCatGlobal.breed(config)
     }
 }
