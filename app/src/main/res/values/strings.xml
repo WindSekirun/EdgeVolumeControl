@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">EdgeVolumeControl</string>
     <string name="edge.screen.title">@string/app_name</string>
-    <string name="edge.screen.desc">Volume Control for Edge</string>
+    <string name="edge.screen.desc">You can adjust the volume for the type of sound you have set up.</string>
     <string name="volume.setting">Sound Setting</string>
     <string name="control.mute">Mute</string>
     <string name="control.unmute">Unmute</string>

@@ -5,12 +5,12 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.provider.Settings
 import android.widget.RemoteViews
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailManager
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailProvider
 import pyxis.uzuki.live.edgevolumecontrol.Constants
 import pyxis.uzuki.live.edgevolumecontrol.R
-import pyxis.uzuki.live.nyancat.NyanCat
 import pyxis.uzuki.live.richutilskt.utils.RPreference
 import pyxis.uzuki.live.richutilskt.utils.audioManager
 
@@ -25,6 +25,7 @@ import pyxis.uzuki.live.richutilskt.utils.audioManager
 
 class VolumeControlProvider : SlookCocktailProvider() {
     private var mVolumeControlView: RemoteViews? = null
+    private var mHelpView: RemoteViews? = null
 
     /**
      * This method is called when the user adds the Edge Single Mode, Edge Single Plus Mode or the Edge Feeds
@@ -36,7 +37,11 @@ class VolumeControlProvider : SlookCocktailProvider() {
             mVolumeControlView = createRemoteView(context ?: return)
         }
 
-        cocktailManager?.updateCocktail(cocktailIds!![0], mVolumeControlView)
+        if (mHelpView == null) {
+            mHelpView = createHelpView(context ?: return)
+        }
+
+        cocktailManager?.updateCocktail(cocktailIds!![0], mVolumeControlView, mHelpView)
     }
 
     /**
@@ -44,10 +49,8 @@ class VolumeControlProvider : SlookCocktailProvider() {
      */
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
-        val action = intent?.action ?: ""
-        NyanCat.d("onReceive: $action")
-        when (action) {
-            Constants.ACTION_REMOTE_CLICK -> context?.performClickEvent(intent ?: return)
+        if (intent?.action == Constants.ACTION_REMOTE_CLICK) {
+            context?.performClickEvent(intent)
         }
     }
 
@@ -58,6 +61,10 @@ class VolumeControlProvider : SlookCocktailProvider() {
         remoteView.setOnClickPendingIntent(R.id.btnMute, context.getClickIntent(R.id.btnMute))
         remoteView.setOnClickPendingIntent(R.id.btnSetting, context.getClickIntent(R.id.btnSetting))
         return remoteView
+    }
+
+    private fun createHelpView(context: Context): RemoteViews {
+        return RemoteViews(context.packageName, R.layout.help_view)
     }
 
     private fun Context.getClickIntent(id: Int, key: Int = 0): PendingIntent {
@@ -83,12 +90,12 @@ class VolumeControlProvider : SlookCocktailProvider() {
             }
 
             R.id.btnMute -> {
-                changeVolume(isMute = true)
+                changeVolume(isMute = isStreamMute().not())
                 updateUI()
             }
 
             R.id.btnSetting -> {
-                sendBroadcast(Intent(Constants.ACTION_OPEN_VOLUME_SETTING))
+                this.startActivity(Intent(Settings.ACTION_SOUND_SETTINGS))
             }
         }
     }
@@ -96,13 +103,9 @@ class VolumeControlProvider : SlookCocktailProvider() {
     private fun Context.changeVolume(changeValue: Int = 0, isMute: Boolean = false) {
         val original = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         val changed = original + changeValue
-        val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
         var nowBehavior = ""
 
-        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE || isMute) {
-            if (changeValue == 0) {
-                nowBehavior = ""
-            }
+        if (isLastBehaviorMute() || isStreamMute()) {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
         }
 
@@ -123,13 +126,16 @@ class VolumeControlProvider : SlookCocktailProvider() {
     }
 
     private fun Context.updateUI() {
-        val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
         val cocktailIds = getCocktaiIds()
         if (mVolumeControlView == null) {
             mVolumeControlView = createRemoteView(this)
         }
 
-        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE) {
+        if (mHelpView == null) {
+            mHelpView = createHelpView(this)
+        }
+
+        if (isLastBehaviorMute() || isStreamMute()) {
             changeIcon(R.drawable.ic_volume_up)
             changeText(R.string.control_unmute)
         } else {
@@ -137,7 +143,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
             changeText(R.string.control_mute)
         }
 
-        SlookCocktailManager.getInstance(this).updateCocktail(cocktailIds[0], mVolumeControlView)
+        SlookCocktailManager.getInstance(this).updateCocktail(cocktailIds[0], mVolumeControlView, mHelpView)
     }
 
     private fun Context.getCocktaiIds() =
@@ -150,7 +156,10 @@ class VolumeControlProvider : SlookCocktailProvider() {
     private fun Context.changeText(resId: Int) =
             mVolumeControlView?.setTextViewText(R.id.txtMuteState, this.getString(resId))
 
-    private fun Context.isMute() = audioManager.isStreamMute(AudioManager.STREAM_MUSIC)
+    private fun Context.isStreamMute() = audioManager.isStreamMute(AudioManager.STREAM_MUSIC)
+
+    private fun Context.isLastBehaviorMute() =
+            RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR) == Constants.LAST_BEHAVIOR_MUTE
 
     // unused methods
 

@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.OpenVolumeSettingActivity">
-            <intent-filter>
-                <action android:name="pyxis.uzuki.live.edgevolumecontrol.ACTION_OPEN_VOLUME_SETTING" />
-            </intent-filter>
-        </activity>
-
         <receiver android:name=".provider.VolumeControlProvider">
             <intent-filter>
                 <action android:name="com.samsung.android.cocktail.v2.action.COCKTAIL_UPDATE" />
