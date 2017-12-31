@@ -27,7 +27,11 @@
 
         <Preference
             android:key="3rd-party"
-            android:title="@string/setting.third.party" />
+            android:title="@string/setting.third.party" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/WindSekirun/EdgeVolumeControl/blob/master/third-party.md" />
+        </Preference>
 
         <Preference
             android:key="source"
