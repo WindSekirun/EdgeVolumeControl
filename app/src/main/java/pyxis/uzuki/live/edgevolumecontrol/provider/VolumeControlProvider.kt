@@ -13,13 +13,13 @@ import pyxis.uzuki.live.nyancat.NyanCat
 
 /**
  * EdgeVolumeControl
- * Class: VolumePlusProvider
+ * Class: VolumeControlProvider
  * Created by Pyxis on 12/31/17.
  *
  * Description:
  */
 
-class VolumePlusProvider : SlookCocktailProvider() {
+class VolumeControlProvider : SlookCocktailProvider() {
     private var mVolumeContolView: RemoteViews? = null
 
     /**

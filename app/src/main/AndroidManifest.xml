@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".provider.VolumePlusProvider">
+        <receiver android:name=".provider.VolumeControlProvider">
             <intent-filter>
                 <action android:name="com.samsung.android.cocktail.v2.action.COCKTAIL_UPDATE" />
             </intent-filter>

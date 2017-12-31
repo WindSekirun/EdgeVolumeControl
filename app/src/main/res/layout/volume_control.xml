@@ -8,32 +8,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="mode: Media"
-            android:textSize="20sp" />
-
-        <Button
+        <ImageView
             android:id="@+id/btnPlus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:text="Plus" />
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_volume_up" />
 
-        <Button
+        <ImageView
             android:id="@+id/btnMinus"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:text="Minus" />
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="25dp"
+            android:src="@drawable/ic_volume_down"/>
 
-        <Button
+        <ImageView
             android:id="@+id/btnMute"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:text="Mute" />
+            android:layout_width="72dp"
+            android:layout_marginTop="25dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_volume_off" />
     </LinearLayout>
 
 </FrameLayout>
