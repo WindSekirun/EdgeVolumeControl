@@ -28,10 +28,9 @@ Plus Mode, launching the main activity you want. If you use the attribute, your 
 
 <cocktail-provider
     cocktailWidth="550"
-    configure="pyxis.uzuki.live.edgevolumecontrol.ConfigureActivity"
     description="@string/edge.screen.desc"
     label="@string/edge.screen.title"
+    launchOnClick="pyxis.uzuki.live.edgevolumecontrol.activity.OpenVolumeSettingActivity"
     permitVisibilityChanged="true"
-
     previewImage="@drawable/apps_edge_bg"
     updatePeriodMills="1800000" />

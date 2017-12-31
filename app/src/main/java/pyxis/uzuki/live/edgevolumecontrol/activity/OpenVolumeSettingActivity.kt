@@ -1,4 +1,4 @@
-package pyxis.uzuki.live.edgevolumecontrol
+package pyxis.uzuki.live.edgevolumecontrol.activity
 
 import android.content.Intent
 import android.os.Bundle
