@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ label – specifies the name of the Edge Single Mode, Edge Single Plus Mode, or the Edge Feeds Mode.
+ description – specifies the description of the the Edge Single Mode, Edge Single Plus Mode, or the
+Edge Feeds Mode.
+ previewImage – shows a preview of what the the Edge Single Mode, Edge Single Plus Mode, or the
+Edge Feeds Mode will look like after being enabled. It is used to enable or disable Edge Single Mode,
+Edge Single Plus Mode, or Edge Feeds Mode in the Edge(curved) screen setting.
+ updatePeriodMillis – defines how often the Edge Framework should request an update from the
+SlookCocktailProvider by calling the onUpdate() callback method. The actual update is not guaranteed
+to occur exactly on time with the defined value and it is not suggested to update it frequently - not
+more than once an hour - to conserve the battery. You can also allow the user to adjust the frequency
+in a configuration.
+ permitVisibilityChanged – if it is set to true, the onVisibilityChanged of the
+SlookCocktailProvider is called when the Edge Single Mode, Edge Single Plus Mode, or the Edge Feeds
+Mode is shown.
+ configure – defines the Configuration Activity for the Edge Single Mode, Edge Single Plus Mode or the
+Edge Feeds Mode, which can be launched in the Edge(curved) screen setting.
+ category – defines the category of the Edge Feeds Mode. There are ‘feeds’. The specific devices will
+support only the Edge Feeds Mode defined in the specified category.
+ cocktailWidth – defines the width of Edge Single Plus Mode. If you use the attribute, your provider
+should use com.samsung.android.cocktail.v2.action.COCKTAIL_UPDATE as the intent filter.
+Copyright © Samsung Electronics Co., Ltd. All rights reserved. Page 16
+ launchOnClick – defines the button of Edge Single Plus Mode. You can set a button on Edge Single
+Plus Mode, launching the main activity you want. If you use the attribute, your provider should
+-->
+
+<cocktail-provider
+    cocktailWidth="550"
+    configure="pyxis.uzuki.live.edgevolumecontrol.ConfigureActivity"
+    description="@string/edge.screen.desc"
+    label="@string/edge.screen.title"
+    permitVisibilityChanged="true"
+
+    previewImage="@drawable/apps_edge_bg"
+    updatePeriodMills="1800000" />
