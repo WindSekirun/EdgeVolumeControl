@@ -21,16 +21,13 @@ Edge Feeds Mode, which can be launched in the Edge(curved) screen setting.
 support only the Edge Feeds Mode defined in the specified category.
  cocktailWidth – defines the width of Edge Single Plus Mode. If you use the attribute, your provider
 should use com.samsung.android.cocktail.v2.action.COCKTAIL_UPDATE as the intent filter.
-Copyright © Samsung Electronics Co., Ltd. All rights reserved. Page 16
  launchOnClick – defines the button of Edge Single Plus Mode. You can set a button on Edge Single
 Plus Mode, launching the main activity you want. If you use the attribute, your provider should
 -->
 
 <cocktail-provider
-    cocktailWidth="550"
+    cocktailWidth="450"
     description="@string/edge.screen.desc"
     label="@string/edge.screen.title"
-    launchOnClick="pyxis.uzuki.live.edgevolumecontrol.activity.OpenVolumeSettingActivity"
-    permitVisibilityChanged="true"
-    previewImage="@drawable/apps_edge_bg"
+    previewImage="@drawable/app_edge_bg"
     updatePeriodMills="1800000" />

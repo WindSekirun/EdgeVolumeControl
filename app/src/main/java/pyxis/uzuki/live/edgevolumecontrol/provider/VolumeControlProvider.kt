@@ -25,7 +25,7 @@ import pyxis.uzuki.live.richutilskt.utils.isEmpty
  */
 
 class VolumeControlProvider : SlookCocktailProvider() {
-    private var mVolumeContolView: RemoteViews? = null
+    private var mVolumeControlView: RemoteViews? = null
 
     /**
      * This method is called when the user adds the Edge Single Mode, Edge Single Plus Mode or the Edge Feeds
@@ -33,11 +33,11 @@ class VolumeControlProvider : SlookCocktailProvider() {
      * starting a temporary Service.
      */
     override fun onUpdate(context: Context?, cocktailManager: SlookCocktailManager?, cocktailIds: IntArray?) {
-        if (mVolumeContolView == null) {
-            mVolumeContolView = createRemoteView(context ?: return)
+        if (mVolumeControlView == null) {
+            mVolumeControlView = createRemoteView(context ?: return)
         }
 
-        context?.updateUI()
+        cocktailManager?.updateCocktail(cocktailIds!![0], mVolumeControlView)
     }
 
     /**
@@ -120,8 +120,8 @@ class VolumeControlProvider : SlookCocktailProvider() {
     private fun Context.updateUI() {
         val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
         val cocktailIds = getCocktaiIds()
-        if (mVolumeContolView == null) {
-            mVolumeContolView = createRemoteView(this)
+        if (mVolumeControlView == null) {
+            mVolumeControlView = createRemoteView(this)
         }
 
         if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE) {
@@ -130,7 +130,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
             changeIcon(R.drawable.ic_volume_off)
         }
 
-        SlookCocktailManager.getInstance(this).updateCocktail(cocktailIds[0], mVolumeContolView)
+        SlookCocktailManager.getInstance(this).updateCocktail(cocktailIds[0], mVolumeControlView)
     }
 
     private fun Context.getCocktaiIds() =
@@ -138,7 +138,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
                     ComponentName(this, VolumeControlProvider::class.java))
 
     private fun changeIcon(resId: Int, srcId: Int = R.id.btnMute) =
-            mVolumeContolView?.setImageViewResource(srcId, resId)
+            mVolumeControlView?.setImageViewResource(srcId, resId)
 
     // unused methods
 
