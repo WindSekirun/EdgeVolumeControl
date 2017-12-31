@@ -1,14 +1,19 @@
 package pyxis.uzuki.live.edgevolumecontrol.provider
 
 import android.app.PendingIntent
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.widget.RemoteViews
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailManager
 import com.samsung.android.sdk.look.cocktailbar.SlookCocktailProvider
 import pyxis.uzuki.live.edgevolumecontrol.Constants
 import pyxis.uzuki.live.edgevolumecontrol.R
 import pyxis.uzuki.live.nyancat.NyanCat
+import pyxis.uzuki.live.richutilskt.utils.RPreference
+import pyxis.uzuki.live.richutilskt.utils.audioManager
+import pyxis.uzuki.live.richutilskt.utils.isEmpty
 
 
 /**
@@ -32,7 +37,7 @@ class VolumeControlProvider : SlookCocktailProvider() {
             mVolumeContolView = createRemoteView(context ?: return)
         }
 
-        cocktailManager?.updateCocktail(cocktailIds!![0], mVolumeContolView)
+        context?.updateUI()
     }
 
     /**
@@ -66,8 +71,76 @@ class VolumeControlProvider : SlookCocktailProvider() {
 
     private fun Context.performClickEvent(intent: Intent) {
         val id = intent.getIntExtra("id", -1)
+        when (id) {
+            R.id.btnPlus -> {
+                changeVolume(1)
+                updateUI()
+            }
 
+            R.id.btnMinus -> {
+                changeVolume(-1)
+                updateUI()
+            }
+
+            R.id.btnMute -> {
+                changeVolume(isMute = true)
+                updateUI()
+            }
+        }
     }
+
+    private fun Context.changeVolume(changeValue: Int = 0, isMute: Boolean = false) {
+        val original = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        val changed = original + changeValue
+        val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
+        var nowBehavior = ""
+
+        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE) {
+            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
+        }
+
+        if (isMute) {
+            nowBehavior = Constants.LAST_BEHAVIOR_MUTE
+            audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
+        }
+
+        if (changeValue < 0) {
+            nowBehavior = Constants.LAST_BEHAVIOR_MINUS
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, changed, AudioManager.FLAG_SHOW_UI)
+        }
+
+        if (nowBehavior.isEmpty()) {
+            nowBehavior = Constants.LAST_BEHAVIOR_PLUS
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, changed, AudioManager.FLAG_SHOW_UI)
+        }
+
+        RPreference.getInstance(this).put(Constants.KEY_LAST_BEHAVIOR to nowBehavior)
+    }
+
+    private fun Context.updateUI() {
+        val lastBehavior = RPreference.getInstance(this).getString(Constants.KEY_LAST_BEHAVIOR)
+        val cocktailIds = getCocktaiIds()
+        if (mVolumeContolView == null) {
+            mVolumeContolView = createRemoteView(this)
+        }
+
+        if (lastBehavior == Constants.LAST_BEHAVIOR_MUTE) {
+            changeIcon(R.drawable.ic_volume_up)
+        } else {
+            changeIcon(R.drawable.ic_volume_off)
+        }
+
+        SlookCocktailManager.getInstance(this).updateCocktail(cocktailIds[0], mVolumeContolView)
+    }
+
+    private fun Context.getCocktaiIds() =
+            SlookCocktailManager.getInstance(this).getCocktailIds(
+                    ComponentName(this, VolumeControlProvider::class.java))
+
+    private fun changeIcon(resId: Int, srcId: Int = R.id.btnMute) =
+            mVolumeContolView?.setImageViewResource(srcId, resId)
+
+    // unused methods
 
     /**
      * This method is called when the Edge Single Mode, Edge Single Plus Mode or the Edge Feeds Mode is
